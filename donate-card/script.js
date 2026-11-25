@@ -1,41 +1,54 @@
 (function () {
-  const DEFAULT_DONATION = {
+  const DEFAULT_DATA = {
     platform: "SociaBuzz",
-    name: "KuroNeko",
-    amount: "Rp 50.000",
-    message: "Semangat terus live-nya! Suaranya jernih dan tampilannya enak dilihat."
+    name: "Nama Donatur",
+    amount: "Rp 0",
+    message: "Pesan dukungan akan tampil di sini."
   };
 
-  function renderDonation(data) {
-    const cardEl = document.getElementById("donateCard");
-    const platformEl = document.getElementById("donatePlatform");
-    const nameEl = document.getElementById("donorName");
-    const amountEl = document.getElementById("donateAmount");
-    const msgEl = document.getElementById("donateMessage");
-
-    if (platformEl) platformEl.textContent = data.platform || DEFAULT_DONATION.platform;
-    if (nameEl) nameEl.textContent = data.name || DEFAULT_DONATION.name;
-    if (amountEl) amountEl.textContent = data.amount || DEFAULT_DONATION.amount;
-    if (msgEl) msgEl.textContent = data.message || DEFAULT_DONATION.message;
-
-    if (cardEl) {
-      cardEl.classList.remove("is-hidden");
-    }
+  function getQueryData() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      platform: params.get("platform") || DEFAULT_DATA.platform,
+      name: params.get("name") || DEFAULT_DATA.name,
+      amount: params.get("amount") || DEFAULT_DATA.amount,
+      message: params.get("message") || DEFAULT_DATA.message
+    };
   }
 
-  // Mendukung event alert Streamlabs jika dihubungkan ke Alert Box / Custom Event
-  document.addEventListener("onEventReceived", function (obj) {
-    if (!obj || !obj.detail || !obj.detail.event) return;
-    const ev = obj.detail.event;
-    if (ev.type === "donation") {
-      renderDonation({
-        platform: "Donation",
-        name: ev.name,
-        amount: ev.formattedAmount || ev.amount,
-        message: ev.message
-      });
+  function render(data) {
+    const p = document.getElementById("donatePlatform");
+    const n = document.getElementById("donorName");
+    const a = document.getElementById("donateAmount");
+    const m = document.getElementById("donateMessage");
+
+    if (p) p.textContent = data.platform;
+    if (n) n.textContent = data.name;
+    if (a) a.textContent = data.amount;
+    if (m) m.textContent = data.message;
+  }
+
+  let currentData = getQueryData();
+  render(currentData);
+  setTimeout(() => render(currentData), 150);
+  setTimeout(() => render(currentData), 500);
+
+  window.addEventListener("message", (event) => {
+    if (!event.data || typeof event.data !== "object") return;
+    const payload = event.data.donation || event.data;
+    if (
+      payload.name !== undefined ||
+      payload.amount !== undefined ||
+      payload.message !== undefined ||
+      payload.platform !== undefined
+    ) {
+      currentData = {
+        platform: payload.platform ?? currentData.platform,
+        name: payload.name ?? currentData.name,
+        amount: payload.amount ?? currentData.amount,
+        message: payload.message ?? currentData.message
+      };
+      render(currentData);
     }
   });
-
-  renderDonation(DEFAULT_DONATION);
 })();
