@@ -1,15 +1,28 @@
-<div class="qr-card" id="qrCard">
-  <div class="qr-header">
-    <span class="status-dot"></span>
-    <span class="qr-label">SUPPORT & DONATION</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Card Overlay</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="qr-card" id="qrCard">
+    <div class="qr-header">
+      <span class="status-dot"></span>
+      <span class="qr-label">SUPPORT & DONATION</span>
+    </div>
+
+    <div class="qr-frame">
+      <div id="qrCanvas"></div>
+    </div>
+
+    <div class="qr-body">
+      <div class="qr-title" id="qrTitle">Donate me here</div>
+      <div class="qr-link" id="qrLinkText">sociabuzz.com/yourhandle</div>
+    </div>
   </div>
 
-  <div class="qr-frame">
-    <div id="qrCanvas"></div>
-  </div>
-
-  <div class="qr-body">
-    <div class="qr-title" id="qrTitle">Donate me here</div>
-    <div class="qr-link" id="qrLinkText">sociabuzz.com/yourhandle</div>
-  </div>
-</div>
+  <script src="./script.js"></script>
+</body>
+</html>
