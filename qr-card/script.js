@@ -2,7 +2,7 @@
   const CONFIG = {
     title: "Donate me here",
     displayUrl: "sociabuzz.com/yourhandle",
-    qrImageUrl: "https://raw.githubusercontent.com/toemball9-bit/stream-overlays-kit/main/assets/qr-example.png"
+    qrImageUrl: "https://raw.githubusercontent.com/toemball9-bit/stream-overlays-kit/main/assets/QR.png"
   };
 
   function mountQrCard() {
